@@ -2,13 +2,13 @@
   "project": {
     "name": "hyprmcp-gw",
     "module": "github.com/hyprmcp/mcp-gateway",
-    "version": "0.4.0",
+    "version": "0.5.1",
     "language": "go",
-    "goVersion": "1.24.5",
+    "goVersion": "1.25.5",
     "totalLOC": 1691,
     "totalFiles": 22,
     "testFiles": 0,
-    "generated": "2026-02-26",
+    "generated": "2026-02-27",
     "binary": "mcp-gateway",
     "container": "ghcr.io/jrmatherly/hyprmcp-gateway"
   },
@@ -220,7 +220,8 @@
   "cicd": {
     "release": "release-please on push to main/v*.x",
     "docker": "Multi-arch (amd64+arm64), push on tag, cosign signed",
-    "deps": "Renovate for automated dependency updates"
+    "security": "govulncheck SARIF + CodeQL default setup + gosec via golangci-lint",
+    "deps": "Renovate (config:best-practices, gomodTidy, grouped GHA)"
   },
   "devCommands": {
     "install": "mise install",
@@ -263,6 +264,14 @@
       "config-check": {
         "invocation": "/config-check [path]",
         "purpose": "Validate config against schema"
+      },
+      "go-sec-audit": {
+        "invocation": "/go-sec-audit [package]",
+        "purpose": "Run gosec, cross-reference exclusions and TODO tracker"
+      },
+      "dep-check": {
+        "invocation": "/dep-check",
+        "purpose": "Run govulncheck and check for outdated dependencies"
       }
     },
     "agents": {
@@ -273,6 +282,10 @@
       "test-coverage-planner": {
         "model": "sonnet",
         "scope": "Analyze codebase and prioritize test gaps"
+      },
+      "api-contract-reviewer": {
+        "model": "sonnet",
+        "scope": "oauth/, proxy/, jsonrpc/ protocol compliance"
       }
     },
     "mcpServers": {

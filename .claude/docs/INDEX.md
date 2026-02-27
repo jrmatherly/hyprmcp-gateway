@@ -7,11 +7,11 @@
 | Field | Value |
 |-------|-------|
 | Module | `github.com/hyprmcp/mcp-gateway` |
-| Go | 1.24.5 (mise: 1.25.5) |
+| Go | 1.25.5 (mise) |
 | Binary | `mcp-gateway` |
 | Container | `ghcr.io/jrmatherly/hyprmcp-gateway` |
 | License | See `LICENSE` |
-| Version | v0.4.0 (release-please) |
+| Version | v0.5.1 (release-please) |
 
 ---
 
@@ -207,9 +207,11 @@ gets captured in the webhook payload but never reaches the upstream server.
 | Workflow | Trigger | Purpose |
 |----------|---------|---------|
 | `release.yaml` | push to main/v*.x | release-please: changelog + version bump PRs |
-| `docker.yaml` | push/PR/tag | Multi-arch Docker build (amd64+arm64), push on tag, cosign signing |
+| `docker.yaml` | push/PR/tag (Go/Dockerfile changes) | Multi-arch Docker build (amd64+arm64), push on tag, cosign signing |
+| `security.yaml` | push/PR (Go changes) + weekly | govulncheck with SARIF upload to GitHub Security tab |
 
 **Container**: `ghcr.io/jrmatherly/hyprmcp-gateway` — distroless base, nonroot user (65532).
+**Security**: CodeQL (default setup, no workflow file) + govulncheck + gosec (via golangci-lint).
 
 ---
 
@@ -249,12 +251,15 @@ gets captured in the webhook payload but never reaches the upstream server.
 | release-notes | `/release-notes` | Draft conventional commit messages from `git diff --cached` |
 | docker-test | `/docker-test` | Build and smoke-test the Docker image locally |
 | config-check | `/config-check [path]` | Validate config.yaml against schema and constraint rules |
+| go-sec-audit | `/go-sec-audit [package]` | Run gosec, cross-reference against exclusions and TODO tracker |
+| dep-check | `/dep-check` | Run govulncheck locally and check for outdated dependencies |
 
 ### Agents (`.claude/agents/`)
 | Agent | Model | Tools | Scope |
 |-------|-------|-------|-------|
 | security-reviewer | sonnet | Read, Grep, Glob | Audit oauth/, proxy/, webhook/ for JWT, SSRF, header injection, rate-limit bypass |
 | test-coverage-planner | sonnet | Read, Grep, Glob | Analyze codebase to identify and prioritize test gaps |
+| api-contract-reviewer | sonnet | Read, Grep, Glob, WebFetch | Review oauth/, proxy/, jsonrpc/ for protocol compliance |
 
 ### MCP Servers (`.mcp.json`)
 | Server | Package | Purpose |

@@ -1,6 +1,6 @@
 # CLAUDE.md — hyprmcp-gateway
 
-Go module: `github.com/hyprmcp/mcp-gateway` (upstream path retained — standard for forks) | Go 1.24.5
+Go module: `github.com/hyprmcp/mcp-gateway` (upstream path retained — standard for forks) | Go 1.25.5
 Fork repo: `github.com/jrmatherly/hyprmcp-gateway`
 Container: `ghcr.io/jrmatherly/hyprmcp-gateway`
 Branding: **Apollos AI** / `apollosai.dev`
@@ -94,10 +94,13 @@ MCP-Gateway is an HTTP reverse proxy for MCP (Model Context Protocol) servers wi
 - `/release-notes` — Draft conventional commit messages from staged changes
 - `/docker-test` — Build and smoke-test the Docker image locally
 - `/config-check [path]` — Validate config.yaml against schema and constraint rules
+- `/go-sec-audit [package]` — Run gosec on a package, cross-reference against `.golangci.yml` exclusions and TODO tracker
+- `/dep-check` — Run govulncheck locally and check for outdated dependencies
 
 ### Agents
 - `security-reviewer` — Read-only sonnet agent auditing oauth/, proxy/, webhook/ for security issues
 - `test-coverage-planner` — Analyzes codebase to identify and prioritize test gaps
+- `api-contract-reviewer` — Reviews oauth/, proxy/, jsonrpc/ for protocol compliance (RFC 9728, OAuth2, JSON-RPC 2.0, MCP)
 
 ### MCP Servers (`.mcp.json`)
 - **Docker** — Container management (build, run, inspect, logs) via `@modelcontextprotocol/server-docker`
@@ -106,6 +109,7 @@ MCP-Gateway is an HTTP reverse proxy for MCP (Model Context Protocol) servers wi
 
 - **CodeQL** — enabled via GitHub default setup (no workflow file); deep semantic SAST for Go
 - **govulncheck** — `.github/workflows/security.yaml`; SARIF upload to GitHub Security tab; weekly scheduled scan
+- **govulncheck gotcha**: action must use `repo-checkout: false` when workflow has its own checkout step (duplicate Authorization headers cause HTTP 400)
 - **gosec** — enabled in golangci-lint (`.golangci.yml`); runs locally via `mise run lint` and in auto-lint hook
 - All three feed into GitHub Security tab → Code scanning alerts
 - **Renovate** — `config:best-practices` with `gomodTidy`, grouped GHA updates, self-image excluded

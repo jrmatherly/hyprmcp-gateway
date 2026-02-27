@@ -1,6 +1,6 @@
 # Project Index: hyprmcp-gw
 
-Generated: 2026-02-26 | Version: 0.4.0 | 1,691 LOC | 22 Go files | 0 test files
+Generated: 2026-02-27 | Version: 0.5.1 | 1,691 LOC | 22 Go files | 0 test files
 
 ## Project Structure
 
@@ -108,8 +108,9 @@ hyprmcp-gw/
 - `examples/config.yaml` — Example with auth + public proxy routes
 - `mise.toml` — Go 1.25.5, golangci-lint 2, tasks: serve/lint/tidy
 - `release-please-config.json` — Release automation config
-- `renovate.json` — Dependency update automation
+- `renovate.json` — Dependency update automation (`config:best-practices`, `gomodTidy`)
 - `.mcp.json` — Project-level MCP server configuration (Docker)
+- `.golangci.yml` — golangci-lint v2: standard linters + gosec, per-file exclusions
 
 ## Documentation
 
@@ -137,6 +138,8 @@ hyprmcp-gw/
 | release-notes | `/release-notes` | Draft conventional commit messages from staged changes |
 | docker-test | `/docker-test` | Build and smoke-test the Docker image locally |
 | config-check | `/config-check [path]` | Validate config.yaml against schema and constraints |
+| go-sec-audit | `/go-sec-audit [package]` | Run gosec, cross-reference against exclusions and TODO tracker |
+| dep-check | `/dep-check` | Run govulncheck locally and check for outdated dependencies |
 
 ### Agents (`.claude/agents/`)
 
@@ -144,6 +147,7 @@ hyprmcp-gw/
 |-------|-------|-------|-------|
 | security-reviewer | sonnet | Read, Grep, Glob | Audit oauth/, proxy/, webhook/ for security issues |
 | test-coverage-planner | sonnet | Read, Grep, Glob | Analyze codebase and prioritize test gaps |
+| api-contract-reviewer | sonnet | Read, Grep, Glob, WebFetch | Review oauth/, proxy/, jsonrpc/ for protocol compliance |
 
 ### MCP Servers (`.mcp.json`)
 
