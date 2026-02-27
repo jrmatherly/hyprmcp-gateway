@@ -1,0 +1,55 @@
+version: "2"
+
+linters:
+  default: standard
+  enable:
+    - gosec
+
+  exclusions:
+    rules:
+      - linters:
+          - gosec
+        path: _test\.go
+      # Upstream code: config file path from CLI flag
+      - linters:
+          - gosec
+        path: config/config\.go
+        codes:
+          - G304
+      # Upstream code: OAuth2 RFC struct field naming
+      - linters:
+          - gosec
+        path: oauth/dynamic_client_registration\.go
+        codes:
+          - G117
+      # Upstream code: auth server metadata URL from config
+      - linters:
+          - gosec
+        path: oauth/authorization_server_metadata\.go
+        codes:
+          - G107
+      # Upstream code: proxy request to config-sourced auth server
+      - linters:
+          - gosec
+        path: oauth/protected_resource\.go
+        codes:
+          - G704
+      # Upstream code: webhook URL from config
+      - linters:
+          - gosec
+        path: webhook/webhook\.go
+        codes:
+          - G704
+      # Upstream code: HTTP servers without timeouts (TODO #4)
+      - linters:
+          - gosec
+        path: cmd/serve\.go
+        codes:
+          - G114
+      # Upstream code: unchecked Body.Close and io.Copy (TODO #5)
+      - linters:
+          - errcheck
+        path: oauth/protected_resource\.go
+      - linters:
+          - errcheck
+        path: proxy/transport\.go

@@ -12,6 +12,15 @@ Generate comprehensive `_test.go` files for the specified package.
 
 `/gen-test <package>` — e.g., `/gen-test config`, `/gen-test proxy`, `/gen-test oauth`
 
+## Validation Principles
+
+- **Real data only** — test with actual config YAML, real JSON-RPC payloads, and valid JWT structures; never fabricate dummy inputs that bypass validation
+- **Concrete expected outputs** — every test case must assert against a specific expected value, not just "no error"
+- **No mocking core logic** — do not mock the function under test; only mock external boundaries (HTTP servers via httptest, file I/O via temp files)
+- **All failures reported** — track and report all test failures collectively; never exit early on first failure
+- **Verify before linting** — ensure tests compile and pass before addressing style issues
+- **Research protocol** — if tests fail 3+ times with different approaches, read the source code more carefully before retrying; the test is likely misunderstanding the function's contract
+
 ## Instructions
 
 1. Read all `.go` files in the target package (skip any existing `_test.go`)

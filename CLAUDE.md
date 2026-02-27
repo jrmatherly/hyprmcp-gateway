@@ -33,6 +33,14 @@ mise run lint    # golangci-lint
 mise run tidy    # go mod tidy
 ```
 
+## Commit Conventions
+
+- **Release-please** uses [Conventional Commits](https://www.conventionalcommits.org/) — commit prefixes determine version bumps
+- `feat:` → minor bump, `fix:` → patch bump, `feat!:` / `BREAKING CHANGE:` → major bump
+- `ci:`, `docs:`, `chore:`, `style:` → **no release** — use these for non-code changes
+- Release-please opens a PR; merging the PR creates the GitHub Release and triggers Docker build
+- Always merge release-please PRs with **merge commit** (not squash/rebase)
+
 ## Codebase Notes
 
 - **Fork of hyprmcp/mcp-gateway** — Go module path deliberately kept as upstream; do NOT rename `go.mod` or import paths
@@ -48,6 +56,10 @@ mise run tidy    # go mod tidy
 - **Code style**: Go files use tabs (indent 4); all other files use 2-space indent (`.editorconfig`)
 - **Telemetry system**: When `telemetry.enabled`, the proxy injects `hyprmcpPromptAnalytics`/`hyprmcpHistoryAnalytics` fields into `tools/list` responses and strips them from `tools/call` requests before forwarding upstream
 - **Project indexes maintained in 3 files** — keep in sync: `PROJECT_INDEX.md`, `PROJECT_INDEX.json`, `.claude/docs/INDEX.md`
+- **golangci-lint v2** config at `.golangci.yml` — `version: "2"` header required; `default: standard` + gosec enabled
+- **Lint exclusions** reference TODO items — suppressed upstream issues tracked in `.scratchpad/TODO.md` (G114, errcheck)
+- **GitHub Actions path filters** — Docker and security workflows only trigger on Go/Dockerfile changes; tag pushes are never filtered
+- **Concurrency groups** — all workflows cancel stale runs; Docker workflow protects tag pushes (`cancel-in-progress: false` for tags)
 
 ## Architecture Overview
 
@@ -89,3 +101,11 @@ MCP-Gateway is an HTTP reverse proxy for MCP (Model Context Protocol) servers wi
 
 ### MCP Servers (`.mcp.json`)
 - **Docker** — Container management (build, run, inspect, logs) via `@modelcontextprotocol/server-docker`
+
+## Security Scanning
+
+- **CodeQL** — enabled via GitHub default setup (no workflow file); deep semantic SAST for Go
+- **govulncheck** — `.github/workflows/security.yaml`; SARIF upload to GitHub Security tab; weekly scheduled scan
+- **gosec** — enabled in golangci-lint (`.golangci.yml`); runs locally via `mise run lint` and in auto-lint hook
+- All three feed into GitHub Security tab → Code scanning alerts
+- **Renovate** — `config:best-practices` with `gomodTidy`, grouped GHA updates, self-image excluded
