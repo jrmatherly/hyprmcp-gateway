@@ -39,10 +39,11 @@ jobs:
         id: govulncheck
         uses: golang/govulncheck-action@b625fbe08f3bccbe446d94fbf87fcc875a4f50ee # v1.0.4
         with:
+          repo-checkout: false
           output-format: sarif
           output-file: govulncheck.sarif
       - name: Upload SARIF to GitHub Security
-        if: always()
+        if: always() && hashFiles('govulncheck.sarif') != ''
         uses: github/codeql-action/upload-sarif@89a39a4e59826350b863aa6b6252a07ad50cf83e # v4.32.4
         with:
           sarif_file: govulncheck.sarif
