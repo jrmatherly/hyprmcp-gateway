@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/jrmatherly/hyprmcp-gateway/compare/v0.6.0...v0.6.1) (2026-02-27)
+
+
+### Bug Fixes
+
+* upgrade Go to 1.25.7 and x/crypto to v0.48.0 to resolve govulncheck security alerts ([9b23a06](https://github.com/jrmatherly/hyprmcp-gateway/commit/9b23a06f94a77a25c73a2339c90710ecb589c3d4))
+
 ## [0.6.0](https://github.com/jrmatherly/hyprmcp-gateway/compare/v0.5.1...v0.6.0) (2026-02-27)
 
 
