@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "mise run lint 2>&1 | tail -20",
+            "timeout": 15000
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); file=$(echo \"$input\" | grep -oE '\"file_path\"\\s*:\\s*\"[^\"]*\"' | head -1 | sed 's/.*\"file_path\"[[:space:]]*:[[:space:]]*\"//;s/\"$//'); case \"$file\" in *.secret.env|*.env.local) echo \"BLOCKED: Editing $file is not allowed\" >&2; exit 2;; *) exit 0;; esac",
+            "timeout": 5000
+          }
+        ]
+      }
+    ]
+  }
+}

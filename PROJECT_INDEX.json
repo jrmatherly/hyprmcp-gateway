@@ -1,0 +1,136 @@
+{
+  "project": {
+    "name": "hyprmcp-gw",
+    "module": "github.com/hyprmcp/mcp-gateway",
+    "version": "0.4.0",
+    "language": "go",
+    "goVersion": "1.24.5",
+    "totalLOC": 1691,
+    "totalFiles": 22,
+    "testFiles": 0,
+    "generated": "2026-02-26",
+    "binary": "mcp-gateway",
+    "container": "ghcr.io/hyprmcp/mcp-gateway"
+  },
+  "entryPoints": {
+    "cli": "main.go",
+    "server": "cmd/serve.go:38",
+    "docker": "Dockerfile"
+  },
+  "packages": {
+    "cmd": {
+      "path": "cmd/",
+      "loc": 203,
+      "files": ["root.go", "serve.go"],
+      "purpose": "Cobra CLI, HTTP server, config hot-reload, router creation",
+      "exports": ["NewRootCommand", "ServeOptions", "BindServeOptions", "WatchConfigChanges"]
+    },
+    "config": {
+      "path": "config/",
+      "loc": 212,
+      "files": ["config.go"],
+      "purpose": "YAML config types, parsing, validation, TLS",
+      "exports": ["Config", "Authorization", "DynamicClientRegistration", "DexGRPCClient", "Proxy", "ProxyHttp", "ProxyAuthentication", "ProxyTelemetry", "Webhook", "URL", "ParseFile", "Parse"]
+    },
+    "oauth": {
+      "path": "oauth/",
+      "loc": 476,
+      "files": ["oauth.go", "context.go", "misc.go", "protected_resource.go", "authorization_server_metadata.go", "authorization.go", "dynamic_client_registration.go"],
+      "purpose": "JWT validation (JWK cache), Dex gRPC integration, RFC 9728 metadata, OAuth endpoints",
+      "exports": ["Manager", "NewManager", "TokenContext", "GetToken", "GetRawToken", "WithOriginalURL", "GetOriginalURL", "RewriteSetOriginalURL", "NewProtectedResourceHandler", "NewAuthorizationServerMetadataHandler", "NewAuthorizationHandler", "NewDynamicClientRegistrationHandler", "GetMedatata", "ClientInformation", "ProtectedResourceMetadata"]
+    },
+    "proxy": {
+      "path": "proxy/",
+      "loc": 410,
+      "files": ["proxy.go", "transport.go", "event_stream.go", "event_stream_reader.go"],
+      "purpose": "Reverse proxy with MCP-aware transport, SSE interception",
+      "exports": ["NewProxyHandler", "Event"]
+    },
+    "proxy/proxyutil": {
+      "path": "proxy/proxyutil/",
+      "loc": 77,
+      "files": ["util.go", "chain.go"],
+      "purpose": "Rewrite chain and modify-response utilities",
+      "exports": ["RewriteFullFunc", "RewriteHostFunc", "RemoveCORSHeaders", "ModifyResponseChain", "RewriteChain"]
+    },
+    "webhook": {
+      "path": "webhook/",
+      "loc": 51,
+      "files": ["types.go", "webhook.go"],
+      "purpose": "Async webhook delivery with full JSON-RPC context",
+      "exports": ["WebhookPayload", "Send"]
+    },
+    "jsonrpc": {
+      "path": "jsonrpc/",
+      "loc": 34,
+      "files": ["types.go"],
+      "purpose": "JSON-RPC message parsing (Request vs Response)",
+      "exports": ["Message", "Request", "Response", "ParseMessage"]
+    },
+    "log": {
+      "path": "log/",
+      "loc": 36,
+      "files": ["log.go"],
+      "purpose": "Context-propagated structured logging (logr/stdr)",
+      "exports": ["Root", "Add", "Get"]
+    },
+    "htmlresponse": {
+      "path": "htmlresponse/",
+      "loc": 77,
+      "files": ["handle.go", "template.html"],
+      "purpose": "HTML template fallback for browser Accept:text/html clients",
+      "exports": ["NewHandler"]
+    }
+  },
+  "endpoints": [
+    {"path": "/.well-known/oauth-protected-resource/", "handler": "NewProtectedResourceHandler", "auth": false},
+    {"path": "/.well-known/oauth-authorization-server", "handler": "NewAuthorizationServerMetadataHandler", "auth": false},
+    {"path": "/oauth/register", "handler": "NewDynamicClientRegistrationHandler", "auth": false, "rateLimit": "3/10min/IP"},
+    {"path": "/oauth/authorize", "handler": "NewAuthorizationHandler", "auth": false},
+    {"path": "{config.proxy[].path}", "handler": "NewProxyHandler", "auth": "config.proxy[].authentication.enabled"}
+  ],
+  "requestFlow": [
+    "HTTP :9000",
+    "CORS (go-chi/cors)",
+    "delegateHandler (hot-swappable)",
+    "http.ServeMux",
+    "htmlresponse handler",
+    "OAuth JWT middleware (if auth enabled)",
+    "httputil.ReverseProxy + mcpAwareTransport",
+    "upstream MCP server"
+  ],
+  "features": {
+    "configHotReload": "fsnotify watching parent dir (K8s ConfigMap compatible)",
+    "perRouteAuth": "JWT validation toggled per proxy route",
+    "telemetry": "Injects hyprmcpPromptAnalytics/HistoryAnalytics into tools/list, strips from tools/call",
+    "webhook": "Async POST with full JSON-RPC context, timing, auth digest",
+    "sseInterception": "eventStreamReader parses SSE events for per-event mutation",
+    "dynamicClientReg": "Dex gRPC, rate-limited, public or confidential clients",
+    "oauthMetadata": "RFC 9728 protected resource metadata, auth server metadata proxy"
+  },
+  "dependencies": {
+    "spf13/cobra": {"version": "1.10.2", "purpose": "CLI framework"},
+    "fsnotify/fsnotify": {"version": "1.9.0", "purpose": "Config file watching"},
+    "go-chi/cors": {"version": "1.2.2", "purpose": "CORS middleware"},
+    "go-chi/httprate": {"version": "0.15.0", "purpose": "Rate limiting"},
+    "go-logr/logr": {"version": "1.4.3", "purpose": "Structured logging interface"},
+    "lestrrat-go/jwx/v3": {"version": "3.0.12", "purpose": "JWK/JWT validation"},
+    "lestrrat-go/httprc/v3": {"version": "3.0.2", "purpose": "HTTP resource cache"},
+    "dexidp/dex/api/v2": {"version": "2.4.0", "purpose": "Dex gRPC client"},
+    "modelcontextprotocol/go-sdk": {"version": "0.5.0", "purpose": "MCP types"},
+    "sourcegraph/jsonrpc2": {"version": "0.2.1", "purpose": "JSON-RPC types"},
+    "opencontainers/go-digest": {"version": "1.0.0", "purpose": "Token digest hashing"},
+    "google/jsonschema-go": {"version": "0.3.0", "purpose": "JSON Schema types"}
+  },
+  "cicd": {
+    "release": "release-please on push to main/v*.x",
+    "docker": "Multi-arch (amd64+arm64), push on tag, cosign signed",
+    "deps": "Renovate for automated dependency updates"
+  },
+  "devCommands": {
+    "install": "mise install",
+    "serve": "mise run serve",
+    "lint": "mise run lint",
+    "tidy": "mise run tidy"
+  }
+}
