@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/jrmatherly/hyprmcp-gateway/compare/v0.5.1...v0.6.0) (2026-02-27)
+
+
+### Features
+
+* Add `go-sec-audit` and `dep-check` skills, `api-contract-reviewer` agent, and update project metadata and Go version. ([1e6aea4](https://github.com/jrmatherly/hyprmcp-gateway/commit/1e6aea4b16404e262f464469566c325a1a180226))
+
 ## [0.5.1](https://github.com/jrmatherly/hyprmcp-gateway/compare/v0.5.0...v0.5.1) (2026-02-27)
 
 
