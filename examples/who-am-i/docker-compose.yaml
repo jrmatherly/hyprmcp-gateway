@@ -18,7 +18,7 @@ services:
       - .dex.secret.env
 
   gateway:
-    image: ghcr.io/jrmatherly/hyprmcp-gateway:0.5.1 # x-release-please-version
+    image: ghcr.io/jrmatherly/hyprmcp-gateway:0.6.0 # x-release-please-version
     command:
       [
         "serve",
