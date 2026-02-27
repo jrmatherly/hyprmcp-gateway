@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/jrmatherly/hyprmcp-gateway/compare/v0.5.0...v0.5.1) (2026-02-27)
+
+
+### Docs
+
+* update project index with Claude automation and MCP server details, and optimize CI workflows with path filtering and concurrency settings. ([a067067](https://github.com/jrmatherly/hyprmcp-gateway/commit/a067067680e43b27d60f57ecf1065587fffae7fc))
+
 ## [0.5.0](https://github.com/jrmatherly/hyprmcp-gateway/compare/v0.4.0...v0.5.0) (2026-02-27)
 
 ### Features
