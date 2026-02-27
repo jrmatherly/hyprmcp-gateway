@@ -19,10 +19,15 @@ jobs:
       tag_name: ${{ steps.release-please.outputs.tag_name }}
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Release Please
         id: release-please
         uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4.4.0
         with:
-          token: ${{ secrets.GLASSKUBE_BOT_SECRET }}
+          # TODO: Configure a Personal Access Token (PAT) with contents:write and
+          # pull-requests:write permissions, store as RELEASE_PAT repository secret.
+          # A PAT is required (instead of GITHUB_TOKEN) so that release tag pushes
+          # trigger downstream workflows like the Docker build.
+          # token: ${{ secrets.GLASSKUBE_BOT_SECRET }}  # original upstream token
+          token: ${{ secrets.RELEASE_PAT }}
           target-branch: ${{ github.ref_name }}

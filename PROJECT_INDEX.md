@@ -62,7 +62,7 @@ hyprmcp-gw/
 - `ParseFile()/Parse()` — YAML decoding + validation
 - `DexGRPCClient.ClientTLSConfig()` — mTLS config (all-or-nothing)
 
-### oauth (476 LOC)
+### oauth (576 LOC)
 - `Manager` — JWK cache (lestrrat-go/jwx), JWT validation middleware
 - `Manager.Register(mux)` — Registers 4 OAuth endpoints
 - `Manager.Handler(next)` — JWT Bearer validation middleware
@@ -109,6 +109,7 @@ hyprmcp-gw/
 - `mise.toml` — Go 1.25.5, golangci-lint 2, tasks: serve/lint/tidy
 - `release-please-config.json` — Release automation config
 - `renovate.json` — Dependency update automation
+- `.mcp.json` — Project-level MCP server configuration (Docker)
 
 ## Documentation
 
@@ -116,6 +117,35 @@ hyprmcp-gw/
 - `CHANGELOG.md` — Release history (auto-generated)
 - `CONTRIBUTING.md` — Contribution guidelines
 - `CLAUDE.md` — AI assistant instructions
+
+## Claude Code Automations
+
+### Hooks (`.claude/settings.json`)
+| Hook | Trigger | Action |
+|------|---------|--------|
+| Auto-lint | PostToolUse `Edit\|Write` | Runs `mise run lint`, tails last 20 lines |
+| Auto-tidy | PostToolUse `Edit\|Write` | Runs `go mod tidy` when go.mod is edited |
+| Sensitive file guard | PreToolUse `Edit\|Write` | Blocks edits to `*.secret.env` and `*.env.local` |
+| go.sum guard | PreToolUse `Edit\|Write` | Blocks direct edits to `go.sum` |
+
+### Skills (`.claude/skills/`)
+| Skill | Invocation | Purpose |
+|-------|-----------|---------|
+| gen-test | `/gen-test <package>` | Generate table-driven `_test.go` files (stdlib only) |
+| release-notes | `/release-notes` | Draft conventional commit messages from staged changes |
+| docker-test | `/docker-test` | Build and smoke-test the Docker image locally |
+| config-check | `/config-check [path]` | Validate config.yaml against schema and constraints |
+
+### Agents (`.claude/agents/`)
+| Agent | Model | Tools | Scope |
+|-------|-------|-------|-------|
+| security-reviewer | sonnet | Read, Grep, Glob | Audit oauth/, proxy/, webhook/ for security issues |
+| test-coverage-planner | sonnet | Read, Grep, Glob | Analyze codebase and prioritize test gaps |
+
+### MCP Servers (`.mcp.json`)
+| Server | Package | Purpose |
+|--------|---------|---------|
+| docker | `@modelcontextprotocol/server-docker` | Container management (build, run, inspect, logs) |
 
 ## Test Coverage
 

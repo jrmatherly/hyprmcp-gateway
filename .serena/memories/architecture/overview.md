@@ -2,7 +2,7 @@
 
 ## Identity
 Module: github.com/hyprmcp/mcp-gateway | Go 1.24.5 | ~1700 LOC | 17 source files
-Binary: mcp-gateway | Container: ghcr.io/hyprmcp/mcp-gateway
+Binary: mcp-gateway | Container: ghcr.io/jrmatherly/hyprmcp-gateway
 
 ## Package Map
 - cmd/ → Cobra CLI, serve command, config hot-reload (fsnotify), router creation

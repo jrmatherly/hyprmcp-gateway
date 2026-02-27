@@ -9,7 +9,7 @@
 | Module | `github.com/hyprmcp/mcp-gateway` |
 | Go | 1.24.5 (mise: 1.25.5) |
 | Binary | `mcp-gateway` |
-| Container | `ghcr.io/hyprmcp/mcp-gateway` |
+| Container | `ghcr.io/jrmatherly/hyprmcp-gateway` |
 | License | See `LICENSE` |
 | Version | v0.4.0 (release-please) |
 
@@ -209,7 +209,7 @@ gets captured in the webhook payload but never reaches the upstream server.
 | `release.yaml` | push to main/v*.x | release-please: changelog + version bump PRs |
 | `docker.yaml` | push/PR/tag | Multi-arch Docker build (amd64+arm64), push on tag, cosign signing |
 
-**Container**: `ghcr.io/hyprmcp/mcp-gateway` — distroless base, nonroot user (65532).
+**Container**: `ghcr.io/jrmatherly/hyprmcp-gateway` — distroless base, nonroot user (65532).
 
 ---
 
@@ -238,18 +238,28 @@ gets captured in the webhook payload but never reaches the upstream server.
 | Hook | Trigger | Action |
 |------|---------|--------|
 | Auto-lint | PostToolUse `Edit\|Write` | Runs `mise run lint`, tails last 20 lines (15s timeout) |
+| Auto-tidy | PostToolUse `Edit\|Write` | Runs `go mod tidy` when go.mod is edited (30s timeout) |
 | Sensitive file guard | PreToolUse `Edit\|Write` | Blocks edits to `*.secret.env` and `*.env.local` (exit 2) |
+| go.sum guard | PreToolUse `Edit\|Write` | Blocks direct edits to `go.sum` (exit 2) |
 
 ### Skills (`.claude/skills/`)
 | Skill | Invocation | Purpose |
 |-------|-----------|---------|
 | gen-test | `/gen-test <package>` | Generate table-driven `_test.go` files (stdlib only, httptest, logr) |
 | release-notes | `/release-notes` | Draft conventional commit messages from `git diff --cached` |
+| docker-test | `/docker-test` | Build and smoke-test the Docker image locally |
+| config-check | `/config-check [path]` | Validate config.yaml against schema and constraint rules |
 
 ### Agents (`.claude/agents/`)
 | Agent | Model | Tools | Scope |
 |-------|-------|-------|-------|
 | security-reviewer | sonnet | Read, Grep, Glob | Audit oauth/, proxy/, webhook/ for JWT, SSRF, header injection, rate-limit bypass |
+| test-coverage-planner | sonnet | Read, Grep, Glob | Analyze codebase to identify and prioritize test gaps |
+
+### MCP Servers (`.mcp.json`)
+| Server | Package | Purpose |
+|--------|---------|---------|
+| docker | `@modelcontextprotocol/server-docker` | Container management (build, run, inspect, logs) |
 
 ---
 

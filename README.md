@@ -1,7 +1,7 @@
 # Hypr MCP Gateway
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/hyprmcp/mcp-gateway)](https://goreportcard.com/report/github.com/hyprmcp/mcp-gateway)
-[![GoDoc](https://godoc.org/github.com/hyprmcp/mcp-gateway?status.svg)](https://godoc.org/github.com/hyprmcp/mcp-gateway)
+[![Go Report Card](https://goreportcard.com/badge/github.com/jrmatherly/hyprmcp-gateway)](https://goreportcard.com/report/github.com/jrmatherly/hyprmcp-gateway)
+[![GoDoc](https://godoc.org/github.com/jrmatherly/hyprmcp-gateway?status.svg)](https://godoc.org/github.com/jrmatherly/hyprmcp-gateway)
 
 Hypr MCP Gateway featuring 1-click plug-in OAuth authorization including dynamic client registration
 and MCP prompt analytics for streamable HTTP MCP servers.
@@ -36,20 +36,12 @@ is able to return the authorization state.
 
 Adding OAuth2 support to an MCP server has lots of footguns and poses a significant challenge with to many developers.
 By shifting the task to a separate infrastructure component, your MCP server can remain lean and be fully spec-compliant without you having to write a single line of code.
-We have created a write-up on [_Building Supabase-like OAuth Authentication For MCP Servers_](https://hyprmcp.com/blog/mcp-server-authentication/)
-on our [blog](https://hyprmcp.com/blog/) that goes into the details on MCP Server authentication. 
+The original project has a write-up on [_Building Supabase-like OAuth Authentication For MCP Servers_](https://hyprmcp.com/blog/mcp-server-authentication/)
+that goes into the details on MCP Server authentication.
 
+> **Fork notice:** This is a fork of [hyprmcp/mcp-gateway](https://github.com/hyprmcp/mcp-gateway).
 
 ## Contributing & Local development
 
 Check out our [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed instructions.
-
-## Hypr MCP Cloud
-
-We also provide fully-managed MCP server and gateway hosting at Hypr MCP cloud, featuring
-1-click OAuth authorization and [MCP analytics](https://hyprmcp.com/mcp-analytics/).
-
-**Make sure to join our waitlist for early access:**
-
-<kbd>[**Join our waitlist**](https://hyprmcp.com/waitlist/)</kbd>
 

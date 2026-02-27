@@ -10,7 +10,7 @@
     "testFiles": 0,
     "generated": "2026-02-26",
     "binary": "mcp-gateway",
-    "container": "ghcr.io/hyprmcp/mcp-gateway"
+    "container": "ghcr.io/jrmatherly/hyprmcp-gateway"
   },
   "entryPoints": {
     "cli": "main.go",
@@ -34,7 +34,7 @@
     },
     "oauth": {
       "path": "oauth/",
-      "loc": 476,
+      "loc": 576,
       "files": ["oauth.go", "context.go", "misc.go", "protected_resource.go", "authorization_server_metadata.go", "authorization.go", "dynamic_client_registration.go"],
       "purpose": "JWT validation (JWK cache), Dex gRPC integration, RFC 9728 metadata, OAuth endpoints",
       "exports": ["Manager", "NewManager", "TokenContext", "GetToken", "GetRawToken", "WithOriginalURL", "GetOriginalURL", "RewriteSetOriginalURL", "NewProtectedResourceHandler", "NewAuthorizationServerMetadataHandler", "NewAuthorizationHandler", "NewDynamicClientRegistrationHandler", "GetMedatata", "ClientInformation", "ProtectedResourceMetadata"]
@@ -132,5 +132,26 @@
     "serve": "mise run serve",
     "lint": "mise run lint",
     "tidy": "mise run tidy"
+  },
+  "claudeAutomations": {
+    "hooks": {
+      "autoLint": {"trigger": "PostToolUse Edit|Write", "action": "mise run lint"},
+      "autoTidy": {"trigger": "PostToolUse Edit|Write", "action": "go mod tidy (when go.mod edited)"},
+      "sensitiveFileGuard": {"trigger": "PreToolUse Edit|Write", "action": "Block *.secret.env and *.env.local"},
+      "goSumGuard": {"trigger": "PreToolUse Edit|Write", "action": "Block direct go.sum edits"}
+    },
+    "skills": {
+      "gen-test": {"invocation": "/gen-test <package>", "purpose": "Generate table-driven Go tests"},
+      "release-notes": {"invocation": "/release-notes", "purpose": "Draft conventional commit messages"},
+      "docker-test": {"invocation": "/docker-test", "purpose": "Build and smoke-test Docker image"},
+      "config-check": {"invocation": "/config-check [path]", "purpose": "Validate config against schema"}
+    },
+    "agents": {
+      "security-reviewer": {"model": "sonnet", "scope": "oauth/, proxy/, webhook/ security audit"},
+      "test-coverage-planner": {"model": "sonnet", "scope": "Analyze codebase and prioritize test gaps"}
+    },
+    "mcpServers": {
+      "docker": {"package": "@modelcontextprotocol/server-docker", "purpose": "Container management"}
+    }
   }
 }

@@ -19,7 +19,7 @@ First, create a new OAuth application on GitHub here: https://github.com/setting
 | Field                      | Value                            |
 |----------------------------|----------------------------------|
 | Application name           | Hypr MCP Auth Demo               |
-| Homepage URL               | https://hyprmcp.com              |
+| Homepage URL               | https://github.com/jrmatherly/hyprmcp-gateway |
 | Application description    | -                                |
 | Authorization callback URL | `http://localhost:5556/callback` |
 | Enable Device Flow         | `false` (unchecked)              |
@@ -34,13 +34,13 @@ You'll need the client ID and client secret for starting the server.
 Make sure to clone the repository locally:
 
 ```shell
-git clone https://github.com/hyprmcp/mcp-gateway.git
+git clone https://github.com/jrmatherly/hyprmcp-gateway.git
 ````
 
 Make sure to change into the who-am-i directory:
 
 ```shell
-cd mcp-gateway/examples/who-am-i
+cd hyprmcp-gateway/examples/who-am-i
 ````
 
 Next, copy the file `.dex.secret.env.template` to `.dex.secret.env` and fill it with the client ID and client
@@ -90,11 +90,6 @@ Watch a demonstration of the MCP Gateway in action:
 
 [![MCP Gateway Demo](https://img.youtube.com/vi/-oEzwJe1wac/maxresdefault.jpg)](https://youtu.be/-oEzwJe1wac)
 
-## Hypr MCP Cloud
+## Upstream
 
-We also provide fully-managed MCP server and gateway hosting at Hypr MCP cloud, featuring
-1-click OAuth authorization and [MCP analytics](https://hyprmcp.com/mcp-analytics/).
-
-**Make sure to join our waitlist for early access:**
-
-# <kbd>[**Join our waitlist**](https://hyprmcp.com/waitlist/)</kbd>
+This example is from the upstream [hyprmcp/mcp-gateway](https://github.com/hyprmcp/mcp-gateway) project.
