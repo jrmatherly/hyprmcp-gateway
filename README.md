@@ -44,4 +44,3 @@ that goes into the details on MCP Server authentication.
 ## Contributing & Local development
 
 Check out our [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed instructions.
-

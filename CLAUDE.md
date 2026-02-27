@@ -63,7 +63,6 @@ MCP-Gateway is an HTTP reverse proxy for MCP (Model Context Protocol) servers wi
    - Supports SSE (Server-Sent Events) for streaming
 4. **Webhook System** (`webhook/`): Async notifications with full request/response context
 
-
 ### Important Design Patterns
 - **Config Hot-Reload**: Uses fsnotify to watch config file changes
 - **Context Propagation**: Structured logging with request context

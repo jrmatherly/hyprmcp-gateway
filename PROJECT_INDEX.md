@@ -121,6 +121,7 @@ hyprmcp-gw/
 ## Claude Code Automations
 
 ### Hooks (`.claude/settings.json`)
+
 | Hook | Trigger | Action |
 |------|---------|--------|
 | Auto-lint | PostToolUse `Edit\|Write` | Runs `mise run lint`, tails last 20 lines |
@@ -129,6 +130,7 @@ hyprmcp-gw/
 | go.sum guard | PreToolUse `Edit\|Write` | Blocks direct edits to `go.sum` |
 
 ### Skills (`.claude/skills/`)
+
 | Skill | Invocation | Purpose |
 |-------|-----------|---------|
 | gen-test | `/gen-test <package>` | Generate table-driven `_test.go` files (stdlib only) |
@@ -137,12 +139,14 @@ hyprmcp-gw/
 | config-check | `/config-check [path]` | Validate config.yaml against schema and constraints |
 
 ### Agents (`.claude/agents/`)
+
 | Agent | Model | Tools | Scope |
 |-------|-------|-------|-------|
 | security-reviewer | sonnet | Read, Grep, Glob | Audit oauth/, proxy/, webhook/ for security issues |
 | test-coverage-planner | sonnet | Read, Grep, Glob | Analyze codebase and prioritize test gaps |
 
 ### MCP Servers (`.mcp.json`)
+
 | Server | Package | Purpose |
 |--------|---------|---------|
 | docker | `@modelcontextprotocol/server-docker` | Container management (build, run, inspect, logs) |
