@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/jrmatherly/hyprmcp-gateway/compare/v0.4.0...v0.5.0) (2026-02-27)
+
+
+### Features
+
+* Implement Claude agents, skills, and hooks, update project documentation and CI workflows, and refresh Docker image references. ([1dd8b1b](https://github.com/jrmatherly/hyprmcp-gateway/commit/1dd8b1bfc061f2dcb8e0dc3b90d3ff5c0e2629c4))
+
 ## [0.4.0](https://github.com/hyprmcp/mcp-gateway/compare/v0.3.1...v0.4.0) (2025-12-16)
 
 
