@@ -106,7 +106,7 @@ hyprmcp-gw/
 
 - `config.yaml` — Local dev config (gitignored)
 - `examples/config.yaml` — Example with auth + public proxy routes
-- `mise.toml` — Go 1.25.5, golangci-lint 2, tasks: serve/lint/tidy
+- `mise.toml` — Go 1.25.7, golangci-lint 2, tasks: serve/lint/tidy
 - `release-please-config.json` — Release automation config
 - `renovate.json` — Dependency update automation (`config:best-practices`, `gomodTidy`)
 - `.mcp.json` — Project-level MCP server configuration (Docker)

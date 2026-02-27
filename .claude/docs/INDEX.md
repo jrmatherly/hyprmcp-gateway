@@ -7,7 +7,7 @@
 | Field | Value |
 |-------|-------|
 | Module | `github.com/hyprmcp/mcp-gateway` |
-| Go | 1.25.5 (mise) |
+| Go | 1.25.7 (mise) |
 | Binary | `mcp-gateway` |
 | Container | `ghcr.io/jrmatherly/hyprmcp-gateway` |
 | License | See `LICENSE` |

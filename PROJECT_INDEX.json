@@ -4,7 +4,7 @@
     "module": "github.com/hyprmcp/mcp-gateway",
     "version": "0.5.1",
     "language": "go",
-    "goVersion": "1.25.5",
+    "goVersion": "1.25.7",
     "totalLOC": 1691,
     "totalFiles": 22,
     "testFiles": 0,

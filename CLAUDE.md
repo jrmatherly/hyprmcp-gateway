@@ -1,6 +1,6 @@
 # CLAUDE.md — hyprmcp-gateway
 
-Go module: `github.com/hyprmcp/mcp-gateway` (upstream path retained — standard for forks) | Go 1.25.5
+Go module: `github.com/hyprmcp/mcp-gateway` (upstream path retained — standard for forks) | Go 1.25.7
 Fork repo: `github.com/jrmatherly/hyprmcp-gateway`
 Container: `ghcr.io/jrmatherly/hyprmcp-gateway`
 Branding: **Apollos AI** / `apollosai.dev`
